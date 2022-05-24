@@ -16,3 +16,5 @@ func NewService() Service {
 func (svc *service) GetSentence(ctx context.Context) (string, error) {
 	return "", nil
 }
+
+type ServiceMiddleware func(Service) Service
