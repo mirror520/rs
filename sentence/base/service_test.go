@@ -17,8 +17,31 @@ func TestSentenceServiceInjectMetaphorpsumProxy(t *testing.T) {
 	var thirdSvc sentence.Service // dummy service
 	thirdSvc = metaphorpsum.ProxyMiddleware()(thirdSvc)
 
-	svc := NewService(thirdSvc)
-	sentence, _ := svc.GetSentence(context.TODO())
+	thirdServices := make(map[string]sentence.Service)
+	thirdServices["metaphorpsum"] = thirdSvc
+
+	ctx := context.WithValue(context.Background(), sentence.Third, "metaphorpsum")
+
+	svc := NewService(thirdServices)
+	sentence, _ := svc.GetSentence(ctx)
+
+	fmt.Println(sentence)
+	assert.NotEmpty(sentence)
+}
+
+func TestSentenceServiceInjectItsthisforthatProxy(t *testing.T) {
+	assert := assert.New(t)
+
+	var thirdSvc sentence.Service // dummy service
+	thirdSvc = metaphorpsum.ProxyMiddleware()(thirdSvc)
+
+	thirdServices := make(map[string]sentence.Service)
+	thirdServices["itsthisforthat"] = thirdSvc
+
+	ctx := context.WithValue(context.Background(), sentence.Third, "itsthisforthat")
+
+	svc := NewService(thirdServices)
+	sentence, _ := svc.GetSentence(ctx)
 
 	fmt.Println(sentence)
 	assert.NotEmpty(sentence)
