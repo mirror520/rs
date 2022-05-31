@@ -4,7 +4,6 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"github.com/mirror520/rs/sentence"
-	"github.com/mirror520/rs/sentence/base"
 	"github.com/mirror520/rs/sentence/third/itsthisforthat"
 	"github.com/mirror520/rs/sentence/third/metaphorpsum"
 )
@@ -16,7 +15,7 @@ func main() {
 	thirdServices["metaphorpsum"] = metaphorpsum.ProxyMiddleware()(thirdSvc)
 	thirdServices["itsthisforthat"] = itsthisforthat.ProxyMiddleware()(thirdSvc)
 
-	var svc sentence.Service = base.NewService(thirdServices)
+	svc := sentence.NewService(thirdServices)
 	endpoint := sentence.GetSentenceEndpoint(svc)
 	handler := sentence.GetSentenceHandler(endpoint)
 
