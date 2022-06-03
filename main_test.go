@@ -12,7 +12,51 @@ import (
 	"github.com/stretchr/testify/suite"
 )
 
-func TestModel(t *testing.T) {
+type SentenceServiceTestSuite struct {
+	suite.Suite
+}
+
+func (suite *SentenceServiceTestSuite) TestServiceInjectMetaphorpsumProxy() {
+	var thirdSvc sentence.Service // dummy service
+	thirdSvc = metaphorpsum.ProxyMiddleware()(thirdSvc)
+
+	thirdServices := make(map[string]sentence.Service)
+	thirdServices["metaphorpsum"] = thirdSvc
+
+	ctx := context.WithValue(context.Background(), sentence.Third, "metaphorpsum")
+
+	svc := sentence.NewService(thirdServices)
+	sentence, _ := svc.GetSentence(ctx)
+
+	fmt.Println(sentence)
+	suite.NotEmpty(sentence)
+}
+
+func (suite *SentenceServiceTestSuite) TestInjectItsthisforthatProxy() {
+	var thirdSvc sentence.Service // dummy service
+	thirdSvc = metaphorpsum.ProxyMiddleware()(thirdSvc)
+
+	thirdServices := make(map[string]sentence.Service)
+	thirdServices["itsthisforthat"] = thirdSvc
+
+	ctx := context.WithValue(context.Background(), sentence.Third, "itsthisforthat")
+
+	svc := sentence.NewService(thirdServices)
+	sentence, _ := svc.GetSentence(ctx)
+
+	fmt.Println(sentence)
+	suite.NotEmpty(sentence)
+}
+
+func TestRunSentenceServiceSuite(t *testing.T) {
+	suite.Run(t, new(SentenceServiceTestSuite))
+}
+
+type ModelTestSuite struct {
+	suite.Suite
+}
+
+func (suite *ModelTestSuite) TestModel() {
 	store := model.Store{
 		Title: "犀牛盾",
 		Coupns: []model.Coupn{
@@ -60,44 +104,4 @@ func TestModel(t *testing.T) {
 	}
 
 	fmt.Println(order)
-}
-
-type SentenceServiceTestSuite struct {
-	suite.Suite
-}
-
-func (suite *SentenceServiceTestSuite) TestServiceInjectMetaphorpsumProxy() {
-	var thirdSvc sentence.Service // dummy service
-	thirdSvc = metaphorpsum.ProxyMiddleware()(thirdSvc)
-
-	thirdServices := make(map[string]sentence.Service)
-	thirdServices["metaphorpsum"] = thirdSvc
-
-	ctx := context.WithValue(context.Background(), sentence.Third, "metaphorpsum")
-
-	svc := sentence.NewService(thirdServices)
-	sentence, _ := svc.GetSentence(ctx)
-
-	fmt.Println(sentence)
-	suite.NotEmpty(sentence)
-}
-
-func (suite *SentenceServiceTestSuite) TestInjectItsthisforthatProxy() {
-	var thirdSvc sentence.Service // dummy service
-	thirdSvc = metaphorpsum.ProxyMiddleware()(thirdSvc)
-
-	thirdServices := make(map[string]sentence.Service)
-	thirdServices["itsthisforthat"] = thirdSvc
-
-	ctx := context.WithValue(context.Background(), sentence.Third, "itsthisforthat")
-
-	svc := sentence.NewService(thirdServices)
-	sentence, _ := svc.GetSentence(ctx)
-
-	fmt.Println(sentence)
-	suite.NotEmpty(sentence)
-}
-
-func TestRunSentenceServiceSuite(t *testing.T) {
-	suite.Run(t, new(SentenceServiceTestSuite))
 }
