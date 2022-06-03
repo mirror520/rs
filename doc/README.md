@@ -58,12 +58,12 @@
 
 | Table           | Field      | Data Type    | Index                 | Reference   |
 | --------------- | ---------- | ------------ | --------------------- | ----------- |
-| products_styles | product_id | MEDIUMINT(8) | PrimaryKey,ForeighKey | products.id | 
+| products_styles | product_id | MEDIUMINT(8) | PrimaryKey,ForeignKey | products.id | 
 |                 | style      | VARCHAR(255) | PrimaryKey            |             | 
 
 | Table           | Field      | Data Type    | Index                 | Reference   |
 | --------------- | ---------- | ------------ | --------------------- | ----------- |
-| products_images | product_id | MEDIUMINT(8) | PrimaryKey,ForeighKey | products.id | 
+| products_images | product_id | MEDIUMINT(8) | PrimaryKey,ForeignKey | products.id | 
 |                 | image_url  | VARCHAR(255) | PrimaryKey            |             | 
 
 | Table     | Field      | Data Type    | Index      | Reference |
