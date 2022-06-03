@@ -4,8 +4,8 @@ import "gorm.io/gorm"
 
 type Order struct {
 	gorm.Model
-	CustomerID string
-	StoreID    string
+	CustomerID uint
+	StoreID    uint
 
 	Customer *Customer // 顧客
 	Store    *Store    // 賣場

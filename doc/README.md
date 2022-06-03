@@ -24,11 +24,77 @@
 
 ## 邏輯設計與實體設計
 
-- 邏輯設計詳 `ORM` (../model)。
-- 實體設計由 `ORM` 直接操作資料庫，不特別處理。
+邏輯設計詳 `ORM` ../model/shopping)
+
+## 實體設計
+
+| Table  | Field      | Data Type    | Index      | Reference |
+| ------ | ---------- | ------------ | ---------- | --------- |
+| stores | id         | MEDIUMINT(8) | PrimaryKey |           |
+|        | created_at | DATETIME     |            |           |
+|        | updated_at | DATETIME     |            |           |
+|        | deleted_at | DATETIME     | Index      |           |
+|        | title      | VARCHAR(255) |            |           |
+
+| Table   | Field      | Data Type    | Index      | Reference |
+| ------- | ---------- | ------------ | ---------- | --------- |
+| coupons | id         | MEDIUMINT(8) | PrimaryKey |           | 
+|         | created_at | DATETIME     |            |           | 
+|         | updated_at | DATETIME     |            |           | 
+|         | deleted_at | DATETIME     | Index      |           | 
+|         | title      | VARCHAR(255) |            |           | 
+|         | discount   | DOUBLE(10,4) |            |           | 
+|         | store_id   | MEDIUMINT(8) | ForeignKey | stores.id |
+
+| Table    | Field      | Data Type    | Index      | Reference |
+| -------- | ---------- | ------------ | ---------- | --------- |
+| products | id         | MEDIUMINT(8) | PrimaryKey |           | 
+|          | created_at | DATETIME     |            |           | 
+|          | updated_at | DATETIME     |            |           | 
+|          | deleted_at | DATETIME     | Index      |           | 
+|          | title      | VARCHAR(255) |            |           | 
+|          | price      | DOUBLE(10,4) |            |           | 
+|          | likes      | INT(10)      |            |           |
+
+| Table           | Field      | Data Type    | Index                 | Reference   |
+| --------------- | ---------- | ------------ | --------------------- | ----------- |
+| products_styles | product_id | MEDIUMINT(8) | PrimaryKey,ForeighKey | products.id | 
+|                 | style      | VARCHAR(255) | PrimaryKey            |             | 
+
+| Table           | Field      | Data Type    | Index                 | Reference   |
+| --------------- | ---------- | ------------ | --------------------- | ----------- |
+| products_images | product_id | MEDIUMINT(8) | PrimaryKey,ForeighKey | products.id | 
+|                 | image_url  | VARCHAR(255) | PrimaryKey            |             | 
+
+| Table     | Field      | Data Type    | Index      | Reference |
+| --------- | ---------- | ------------ | ---------- | --------- |
+| customers | id         | MEDIUMINT(8) | PrimaryKey |           |
+|           | created_at | DATETIME     |            |           |
+|           | updated_at | DATETIME     |            |           |
+|           | deleted_at | DATETIME     | Index      |           |
+|           | name       | VARCHAR(255) |            |           |
+
+| Table  | Field       | Data Type    | Index      | Reference    |
+| ------ | ----------- | ------------ | ---------- | ------------ |
+| orders | id          | MEDIUMINT(8) | PrimaryKey |              |
+|        | created_at  | DATETIME     |            |              |
+|        | updated_at  | DATETIME     |            |              |
+|        | deleted_at  | DATETIME     | Index      |              |
+|        | customer_id | MEDIUMINT(8) | ForeignKey | customers.id |
+|        | store_id    | MEDIUMINT(8) | ForeignKey | stores.id    |
+
+| Table | Field      | Data Type    | Index      | Reference            |
+| ----- | ---------- | ------------ | ---------- | -------------------- |
+| items | id         | MEDIUMINT(8) | PrimaryKey |                      |
+|       | created_at | DATETIME     |            |                      |
+|       | updated_at | DATETIME     |            |                      |
+|       | deleted_at | DATETIME     | Index      |                      |
+|       | order_id   | MEDIUMINT(8) | ForeignKey | orders.id            |
+|       | product_id | MEDIUMINT(8) | ForeignKey | products.id          |
+|       | style      | VARCHAR(255) | ForeignKey | product_styles.style |
+|       | store_id   | MEDIUMINT(8) | ForeignKey | stores.id            |
+|       | coupon_id  | MEDIUMINT(8) | ForeignKey | coupons.id           |
 
 ## 具體驗證
 
-建立 `instances` 具體驗證 (詳 `../main_test.go`)
-
-註：實際使用需依賴 `GORM` 
+建立 `instances` 具體驗證 (詳 `../persistent/seed.go`)
