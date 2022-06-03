@@ -97,4 +97,4 @@
 
 ## 具體驗證
 
-建立 `instances` 具體驗證 (詳 `../persistent/seed.go`)
+建立 `instances` 具體驗證 (詳 `../persistent/seed_test.go`)
