@@ -10,4 +10,5 @@ type Repository interface {
 	RegisterCustomer(customer *Customer) error
 
 	PlaceOrder(order *Order) error
+	GetOrder(id uint) (*Order, error)
 }

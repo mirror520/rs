@@ -6,7 +6,7 @@ type Product struct {
 	gorm.Model
 	Title string  // 名稱
 	Price float64 // 定價
-	Likes int64   // 按讚數
+	Likes int     // 按讚數
 
 	Styles []*ProductStyle // 樣式顏色
 	Images []*ProductImage // 展示圖片

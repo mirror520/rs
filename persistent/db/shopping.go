@@ -80,3 +80,21 @@ func (repo *shoppingRepository) PlaceOrder(order *shopping.Order) error {
 	}
 	return nil
 }
+
+func (repo *shoppingRepository) GetOrder(id uint) (*shopping.Order, error) {
+	var o *shopping.Order
+	result := repo.db.
+		Preload("Customer").
+		Preload("Store").
+		Preload("Items").
+		Preload("Items.Product").
+		Preload("Items.ProductStyle").
+		Preload("Items.Coupon").
+		Take(&o, id)
+
+	if err := result.Error; err != nil {
+		return nil, err
+	}
+
+	return o, nil
+}

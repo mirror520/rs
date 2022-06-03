@@ -14,9 +14,9 @@ func Seed(repo shopping.Repository) error {
 	}
 
 	// 賣場發行折價券
-	store.IssueCoupon("現折 $100", -100)
-	store.IssueCoupon("現折 $200", -200)
-	store.IssueCoupon("現折 $300", -300)
+	store.IssueCoupon("現折 $100", 100)
+	store.IssueCoupon("現折 $200", 200)
+	store.IssueCoupon("現折 $300", 300)
 	if err := repo.UpdateStore(store); err != nil {
 		return err
 	}
@@ -68,9 +68,10 @@ func Seed(repo shopping.Repository) error {
 		Store:    store,
 		Items: []*shopping.Item{
 			{
-				Product: product,
-				Store:   store,
-				Coupon:  store.Coupons[0],
+				Product:      product,
+				ProductStyle: product.Styles[0],
+				Store:        store,
+				Coupon:       store.Coupons[0],
 			},
 		},
 	}
