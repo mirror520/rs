@@ -1,4 +1,4 @@
-package model
+package shopping
 
 import "gorm.io/gorm"
 
@@ -6,9 +6,9 @@ type Item struct {
 	gorm.Model
 	ProductID uint
 	StoreID   uint
-	CoupnID   uint
+	CouponID  uint
 
 	Product Product // 商品
 	Store   Store   // 賣場
-	Coupn   Coupn   // 使用折價券
+	Coupon  Coupon  // 使用折價券
 }

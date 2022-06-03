@@ -1,4 +1,4 @@
-package model
+package shopping
 
 import "gorm.io/gorm"
 

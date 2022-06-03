@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/mirror520/rs/model"
+	"github.com/mirror520/rs/model/shopping"
 	"github.com/mirror520/rs/sentence"
 	"github.com/mirror520/rs/sentence/third/metaphorpsum"
 
@@ -57,20 +57,20 @@ type ModelTestSuite struct {
 }
 
 func (suite *ModelTestSuite) TestModel() {
-	store := model.Store{
+	store := shopping.Store{
 		Title: "犀牛盾",
-		Coupns: []model.Coupn{
+		Coupons: []shopping.Coupon{
 			{Title: "現折 $100", Discount: -100},
 			{Title: "現折 $200", Discount: -200},
 			{Title: "現折 $300", Discount: -300},
 		},
 	}
 
-	product := model.Product{
+	product := shopping.Product{
 		Title: "犀牛盾 適用Airpods Pro/第2代/第1代 防摔保護套(含扣環)/玩具總動員-倒吊三眼怪",
 		Price: 690,
 		Likes: 609,
-		Styles: []model.ProductStyle{
+		Styles: []shopping.ProductStyle{
 			{Style: "白"},
 			{Style: "雀藍"},
 			{Style: "石墨黑"},
@@ -78,7 +78,7 @@ func (suite *ModelTestSuite) TestModel() {
 			{Style: "鵝黃"},
 			{Style: "櫻花粉"},
 		},
-		Images: []model.ProductImage{
+		Images: []shopping.ProductImage{
 			{ImageURL: "../image1.jpg"},
 			{ImageURL: "../image2.jpg"},
 			{ImageURL: "../image3.jpg"},
@@ -87,18 +87,18 @@ func (suite *ModelTestSuite) TestModel() {
 		},
 	}
 
-	customer := model.Customer{
+	customer := shopping.Customer{
 		Name: "Mirror",
 	}
 
-	order := model.Order{
+	order := shopping.Order{
 		Customer: customer,
 		Store:    store,
-		Items: []model.Item{
+		Items: []shopping.Item{
 			{
 				Product: product,
 				Store:   store,
-				Coupn:   store.Coupns[0],
+				Coupon:  store.Coupons[0],
 			},
 		},
 	}
