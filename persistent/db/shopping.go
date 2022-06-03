@@ -12,18 +12,71 @@ type shoppingRepository struct {
 }
 
 func NewShoppingRepository() (shopping.Repository, error) {
-	db, err := gorm.Open(sqlite.Open("gorm.db"), &gorm.Config{})
+	db, err := gorm.Open(sqlite.Open("shopping.db"), &gorm.Config{})
 	if err != nil {
 		return nil, err
 	}
 
 	repo := new(shoppingRepository)
 	repo.db = db
-	db.AutoMigrate(
-		&shopping.Store{}, &shopping.Coupon{},
-		&shopping.Product{}, &shopping.ProductStyle{}, &shopping.ProductImage{},
-		&shopping.Customer{}, &shopping.Order{}, &shopping.Item{},
+
+	err = db.AutoMigrate(
+		&shopping.ProductStyle{}, &shopping.ProductImage{}, &shopping.Product{},
+		&shopping.Coupon{}, &shopping.Store{},
+		&shopping.Item{}, &shopping.Order{},
+		&shopping.Customer{},
 	)
+	if err != nil {
+		return nil, err
+	}
 
 	return repo, nil
+}
+
+func (repo *shoppingRepository) CreateStore(store *shopping.Store) error {
+	tx := repo.db.Create(store)
+	if err := tx.Error; err != nil {
+		return err
+	}
+	return nil
+}
+
+func (repo *shoppingRepository) UpdateStore(store *shopping.Store) error {
+	tx := repo.db.Save(store)
+	if err := tx.Error; err != nil {
+		return err
+	}
+	return nil
+}
+
+func (repo *shoppingRepository) CreateProduct(product *shopping.Product) error {
+	tx := repo.db.Create(product)
+	if err := tx.Error; err != nil {
+		return err
+	}
+	return nil
+}
+
+func (repo *shoppingRepository) UpdateProduct(product *shopping.Product) error {
+	tx := repo.db.Save(product)
+	if err := tx.Error; err != nil {
+		return err
+	}
+	return nil
+}
+
+func (repo *shoppingRepository) RegisterCustomer(customer *shopping.Customer) error {
+	tx := repo.db.Create(customer)
+	if err := tx.Error; err != nil {
+		return err
+	}
+	return nil
+}
+
+func (repo *shoppingRepository) PlaceOrder(order *shopping.Order) error {
+	tx := repo.db.Create(order)
+	if err := tx.Error; err != nil {
+		return err
+	}
+	return nil
 }

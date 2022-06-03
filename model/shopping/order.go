@@ -7,7 +7,7 @@ type Order struct {
 	CustomerID string
 	StoreID    string
 
-	Customer Customer // 顧客
-	Store    Store    // 賣場
-	Items    []Item   // 購買商品明細
+	Customer *Customer // 顧客
+	Store    *Store    // 賣場
+	Items    []*Item   // 購買商品明細
 }
